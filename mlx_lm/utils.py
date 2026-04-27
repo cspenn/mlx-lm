@@ -52,6 +52,7 @@ MODEL_REMAPPING = {
     "qwen2_5_vl": "qwen2_vl",
     "minimax_m2": "minimax",
     "iquestcoder": "llama",
+    "Timer-S1": "timer_s1",
 }
 
 MAX_FILE_SIZE_GB = 5
