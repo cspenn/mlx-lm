@@ -226,6 +226,43 @@ MLX caches the compiled compute graph after the first call, so subsequent calls 
 
 ---
 
+## CLI script
+
+`examples/timer_s1_forecast.py` is a ready-to-run command-line tool for production batch forecasting.
+
+```bash
+# Install extra dependencies for the script
+pip install pandas huggingface_hub
+
+# Basic usage — downloads model on first run
+python examples/timer_s1_forecast.py --input data.csv
+
+# Use a locally converted model, output a specific quantile
+python examples/timer_s1_forecast.py \
+  --input data.csv \
+  --model-path ~/models/Timer-S1-mlx \
+  --quantile 0.5 \
+  --output forecast.csv
+
+# Show all 9 quantile columns and timing stats
+python examples/timer_s1_forecast.py --input data.csv --verbose
+```
+
+**Input CSV format** — two columns, date and value (header names are flexible):
+
+```
+date,value
+2024-01-01,120.5
+2024-01-02,118.3
+...
+```
+
+**Output CSV** — one row per forecast step with columns `step`, `forecast`, `quantile`.
+
+The script uses non-overlapping patches by default (`--overlap 0`), matching the Timer-S1 paper. Pass `--overlap 4` to use overlapping patches for denser context at the cost of correlated inputs.
+
+---
+
 ## Keeping this fork current
 
 This implementation lives on the `timer-s1` branch. To pick up upstream `ml-explore/mlx-lm` bug fixes:
